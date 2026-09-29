@@ -1,0 +1,16 @@
+# Only commonly changed experiment settings are exposed here.
+device: auto
+output_dir: outputs/scene15
+seeds: [0, 1, 2, 3, 4]
+
+dataset:
+  missing_rate: 0.5
+
+train:
+  batch_size: 1024
+  pretrain_epochs: 50
+  joint_epochs: 100
+
+optimizer:
+  pretrain_lr: 0.0005
+  joint_lr: 0.0001
