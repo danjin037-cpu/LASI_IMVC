@@ -4,8 +4,8 @@ from typing import Dict
 
 import torch
 
-from ..models.losses import reconstruction_loss
-from ..utils import AverageMeter, get_or_create_observed_mask
+from models.losses import reconstruction_loss
+from utils import AverageMeter, get_or_create_observed_mask
 
 
 class PretrainTrainer:

@@ -145,6 +145,18 @@ def get_dataloaders(cfg: dict[str, Any]):
         raise ValueError("This release supports only the sample_wise missing protocol")
 
     views, labels = _load_scene15(dataset_cfg["file_path"])
+    actual_num_samples = int(labels.shape[0])
+    actual_num_classes = int(np.unique(labels).size)
+    expected_num_samples = int(dataset_cfg["num_samples_total"])
+    expected_num_classes = int(dataset_cfg["num_classes"])
+    if actual_num_samples != expected_num_samples:
+        raise ValueError(
+            f"Scene15 sample count mismatch: config={expected_num_samples}, data={actual_num_samples}"
+        )
+    if actual_num_classes != expected_num_classes:
+        raise ValueError(
+            f"Scene15 class count mismatch: config={expected_num_classes}, data={actual_num_classes}"
+        )
     views = [StandardScaler().fit_transform(view).astype(np.float32) for view in views]
     clip = _load_clip_features(cfg["clip_view"]["feature_path"], len(labels))
 
@@ -184,8 +196,8 @@ def get_dataloaders(cfg: dict[str, Any]):
         "original_input_dims": [view.shape[1] for view in views],
         "num_views": len(all_views),
         "original_num_views": len(views),
-        "num_classes": int(np.unique(labels).size),
-        "num_samples_total": len(labels),
+        "num_classes": actual_num_classes,
+        "num_samples_total": actual_num_samples,
         "train_size": len(dataset),
         "eval_size": len(dataset),
         "mask_seed": mask_seed,

@@ -4,9 +4,9 @@ from typing import Dict
 
 import torch
 
-from .trainers.joint_trainer import JointTrainer
-from .trainers.pretrain_trainer import PretrainTrainer
-from .utils import save_checkpoint
+from trainers.joint_trainer import JointTrainer
+from trainers.pretrain_trainer import PretrainTrainer
+from utils import save_checkpoint
 
 
 def _build_optimizer(model, optimizer_cfg: Dict, lr: float):

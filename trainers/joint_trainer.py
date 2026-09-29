@@ -9,14 +9,14 @@ from scipy.optimize import linear_sum_assignment
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 
-from ..models.losses import (
+from models.losses import (
     cluster_balance_regularization,
     cross_view_contrastive_loss,
     prototype_clustering_loss,
     prototype_teacher_kl_loss,
     view_distribution_distillation_loss,
 )
-from ..utils import AverageMeter
+from utils import AverageMeter
 
 
 def _hungarian_acc(labels: np.ndarray, preds: np.ndarray, n_clusters: int) -> float:
@@ -185,11 +185,11 @@ class JointTrainer:
         self.lambda_single_proto = float(loss_cfg.get("lambda_single_proto", 0.0))
         self.distill_start_epoch = int(loss_cfg.get("r3plus_distill_start_epoch", 15))
         self.proto_start_epoch = int(loss_cfg.get("r3plus_proto_start_epoch", 25))
-        self.teacher_conf_threshold = float(loss_cfg.get("r3plus_teacher_conf_threshold", 0.60))
+        self.teacher_conf_threshold = float(loss_cfg["tau_t"])
         self.view_distill_student_temperature = float(loss_cfg.get("r3plus_view_student_temperature", 1.0))
         self.proto_teacher_temperature = float(loss_cfg.get("r3plus_proto_teacher_temperature", 0.2))
         self.proto_student_temperature = float(loss_cfg.get("r3plus_proto_student_temperature", 1.0))
-        self.proto_conf_threshold = float(loss_cfg.get("r3plus_proto_conf_threshold", 0.45))
+        self.proto_conf_threshold = float(loss_cfg["tau_p"])
         self.proto_margin_threshold = float(loss_cfg.get("r3plus_proto_margin_threshold", 0.10))
         self.proto_bank_fallback_to_unfiltered = bool(loss_cfg.get("r3plus_proto_bank_fallback_to_unfiltered", False))
         self.proto_bank_rebuild_interval = int(loss_cfg.get("r3plus_proto_bank_rebuild_interval", 0))
@@ -429,7 +429,7 @@ class JointTrainer:
         """
         from sklearn.cluster import KMeans
 
-        n_classes = int(self.cfg["dataset"]["n_classes"])
+        n_classes = int(self.cfg["dataset"]["num_classes"])
         model.eval()
         selected_features = []
         unfiltered_features = []
@@ -702,7 +702,7 @@ class JointTrainer:
         n_init = int(eval_cfg.get("kmeans_n_init", 10))
         repeats = int(eval_cfg.get("kmeans_repeats", 10))
         seed = int(self.cfg.get("train_seed", self.cfg.get("seed", 0)))
-        n_clusters = int(self.cfg["dataset"]["n_classes"])
+        n_clusters = int(self.cfg["dataset"]["num_classes"])
 
         metrics, pred = _evaluate_kmeans_label_free(
             features=feats,

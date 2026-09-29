@@ -1,0 +1,12 @@
+name: lasi-imvc
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy>=1.24,<3
+  - pyyaml>=6,<7
+  - scikit-learn>=1.3,<2
+  - scipy>=1.10,<2
+  - pytorch>=2.0,<3
+  - pip

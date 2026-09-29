@@ -22,7 +22,7 @@ class LASIIMVC(nn.Module):
         self.cfg = cfg
         self.num_views = len(input_dims)
         self.shared_dim = int(cfg["model"]["shared_dim"])
-        self.num_clusters = int(cfg["dataset"]["n_classes"])
+        self.num_clusters = int(cfg["dataset"]["num_classes"])
         self.encoders = build_view_encoders(cfg, input_dims)
         self.decoders = build_view_decoders(cfg, input_dims)
         self.cluster_head = PrototypeClusteringHead(
