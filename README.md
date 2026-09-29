@@ -23,13 +23,8 @@ LASI-IMVC/
 │       ├── model_framework.pdf
 │       └── model_framework.png
 ├── models/
-│   ├── clustering.py
-│   ├── decoders.py
-│   ├── encoders.py
-│   ├── evidence_heads.py
-│   ├── framework.py
-│   ├── losses.py
-│   └── uncertainty_fusion.py
+│   ├── model.py
+│   └── losses.py
 ├── trainers/
 │   ├── joint_trainer.py
 │   └── pretrain_trainer.py

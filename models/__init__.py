@@ -1,3 +1,3 @@
-from .framework import LASIIMVC
+from .model import LASIIMVC
 
 __all__ = ["LASIIMVC"]
